@@ -1,0 +1,65 @@
+.large-post {
+    background-color: chartreuse;
+    display: flex;
+
+    &-right {
+
+        display: flex;
+        flex-direction: column;
+        // height: 100%;
+
+        .header-wrapper {
+            display: flex;
+            gap: 12px;
+            flex: 1;
+
+            .profile-picture {
+                height: 40px;
+                width: 40px;
+                border-radius: 100%;
+            }
+
+            .post-meta-info {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                width: 100%;
+
+                &-left {
+                    // width: 100%;
+                    // text-wrap: 'no-wrap';
+                    flex: 1
+                }
+
+                &-right {
+                    display: flex;
+                    justify-content: space-between;
+                    // width: 100%;
+                    flex: 3;
+                }
+            }
+        }
+
+        .all-comments {
+            flex: 10;
+        }
+
+        .post-comment {
+            flex: 1;
+        }
+    }
+
+    &-left {
+        &-posted-image {
+            width: 100%;
+            height: auto;
+        }
+    }
+
+
+}
+
+.large-post-posted-image {
+    width: 100%;
+    height: auto;
+}

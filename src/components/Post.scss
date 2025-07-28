@@ -1,0 +1,55 @@
+.post-container {
+    background-color: azure;
+    width: 450px;
+    border-radius: 10px;
+    padding: 10px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .post-header {
+        .header-wrapper {
+            display: flex;
+            gap: 12px;
+
+            .profile-picture {
+                height: 40px;
+                width: 40px;
+                border-radius: 100%;
+            }
+
+            .post-meta-info {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                width: 100%;
+
+                &-left {
+                    // width: 100%;
+                    // text-wrap: 'no-wrap';
+                    flex: 1
+                }
+
+                &-right {
+                    display: flex;
+                    justify-content: space-between;
+                    // width: 100%;
+                    flex: 3;
+                }
+            }
+        }
+    }
+
+    .post-body {
+        .posted-image {
+            width: 100%;
+            height: auto;
+        }
+    }
+
+    .post-footer {
+        display: flex;
+        justify-content: space-between;
+    }
+}

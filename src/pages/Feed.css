@@ -1,0 +1,16 @@
+.feed-container {
+    display: flex;
+    width: 100%;
+    padding: 10px;
+    background-color: aquamarine
+}
+
+.leftbar {
+    background-color: aqua;
+    width: 25%;
+}
+
+.rightbar {
+    background-color: blueviolet;
+    width: 75%;
+}

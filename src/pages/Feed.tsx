@@ -32,7 +32,6 @@ function Feed() {
             }
         }
 
-        // if (token != null)
         getAllPostsFn()
     }, [token])
 

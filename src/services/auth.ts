@@ -48,4 +48,28 @@ export const loginApi = async (formData: { username: string, email: string, pass
 
 }
 
+export const validateTokenApi = async (token: string | null) => {
+    try {
+
+        const res = await fetch(server + "/validateToken", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+        })
+
+        if (!res.ok) {
+            const errorData = await res.json();
+            throw new Error(errorData.message || 'Something went wrong');
+        }
+        const data = await res.json();
+        console.log("token validation...", data)
+        return data;
+    } catch (error) {
+        console.error('Error during getting comments:', error);
+        throw error;
+    }
+}
+
 // export default registerApi

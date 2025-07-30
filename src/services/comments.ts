@@ -1,6 +1,6 @@
 const server = 'http://localhost:8080'
 
-export const addCommentApi = async (commentData: { post_id: number, comment: string }, token: string) => {
+export const addCommentApi = async (commentData: { post_id: number, comment: string }, token: string | null) => {
     try {
         const res = await fetch(server + "/comment", {
             method: 'POST',
@@ -26,7 +26,7 @@ export const addCommentApi = async (commentData: { post_id: number, comment: str
 }
 
 
-export const getAllCommentsApi = async (post_id: number, token: string) => {
+export const getAllCommentsApi = async (post_id: number, token: string | null) => {
     try {
         const res = await fetch(server + `/comment?id=${post_id}`, {
             method: 'GET',

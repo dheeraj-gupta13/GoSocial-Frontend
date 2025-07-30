@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/userContext';
 import { loginApi } from '../services/auth';
+import { useNavigate } from 'react-router-dom';
 
 const Login: React.FC = () => {
+    const navigate = useNavigate();
     const { login } = useAuth();
     const [form, setForm] = useState({
         username: '',
@@ -24,6 +26,7 @@ const Login: React.FC = () => {
             // localStorage.setItem('user', 'user')
             login('user', data.token)
             console.log(data)
+            navigate('/feed'); // 🔁 Redirect after login
 
         } catch (error) {
             console.log(error)

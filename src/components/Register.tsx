@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { registerApi } from '../services/auth';
+import './Auth.css'; // 👈 shared auth styles
 
 const Register: React.FC = () => {
     const [form, setForm] = useState({
@@ -8,7 +9,7 @@ const Register: React.FC = () => {
         password: '',
     });
 
-    const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
@@ -17,56 +18,67 @@ const Register: React.FC = () => {
         console.log('Register form submitted:', form);
 
         try {
-            const data = await registerApi(form)
-            console.log(data)
+            const data = await registerApi(form);
+            console.log(data);
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
-
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100">
-            <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
-                <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
-
-                <input
-                    type="text"
-                    name="username"
-                    placeholder="Username"
-                    value={form.username}
-                    onChange={handleChange}
-                    className="w-full mb-4 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
+        <div className="auth-page">
+            {/* Left side image */}
+            <div className="auth-left">
+                <img
+                    src="https://undraw.co/api/illustrations/sign_up.svg"
+                    alt="Register Visual"
                 />
+            </div>
 
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    value={form.email}
-                    onChange={handleChange}
-                    className="w-full mb-4 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
-                />
+            {/* Right side form */}
+            <div className="auth-right">
+                <form onSubmit={handleSubmit} className="auth-form">
+                    <h2 className="auth-title">Create Account 🚀</h2>
 
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    value={form.password}
-                    onChange={handleChange}
-                    className="w-full mb-6 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
-                />
+                    <input
+                        type="text"
+                        name="username"
+                        placeholder="Username"
+                        value={form.username}
+                        onChange={handleChange}
+                        required
+                        className="auth-input"
+                    />
 
-                <button
-                    type="submit"
-                    className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
-                >
-                    Register
-                </button>
-            </form>
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Email"
+                        value={form.email}
+                        onChange={handleChange}
+                        required
+                        className="auth-input"
+                    />
+
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        value={form.password}
+                        onChange={handleChange}
+                        required
+                        className="auth-input"
+                    />
+
+                    <button type="submit" className="auth-btn">
+                        Register
+                    </button>
+
+                    <div className="auth-links">
+                        <a href="/login">Already have an account? Login</a>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 };

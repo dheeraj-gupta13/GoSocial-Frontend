@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/userContext';
 import { loginApi } from '../services/auth';
 import { useNavigate } from 'react-router-dom';
+import './Auth.css'; // 👈 same file as Register
 
 const Login: React.FC = () => {
     const navigate = useNavigate();
@@ -12,70 +13,76 @@ const Login: React.FC = () => {
         password: '',
     });
 
-    const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log('Register form submitted:', form);
-
         try {
-            const data = await loginApi(form)
-            // localStorage.setItem('token', data.token);
-            // localStorage.setItem('user', 'user')
-            login('user', data.token)
-            console.log(data)
-            navigate('/feed'); // 🔁 Redirect after login
-
+            const data = await loginApi(form);
+            login(form.username, data.token);
+            navigate('/feed');
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
-
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100">
-            <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
-                <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
-
-                <input
-                    type="text"
-                    name="username"
-                    placeholder="Username"
-                    value={form.username}
-                    onChange={handleChange}
-                    className="w-full mb-4 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
+        <div className="auth-page">
+            {/* Left image */}
+            <div className="auth-left">
+                <img
+                    src="https://undraw.co/api/illustrations/login.svg"
+                    alt="Login Visual"
                 />
+            </div>
 
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    value={form.email}
-                    onChange={handleChange}
-                    className="w-full mb-4 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
-                />
+            {/* Right form */}
+            <div className="auth-right">
+                <form onSubmit={handleSubmit} className="auth-form">
+                    <h2 className="auth-title">Welcome Back 👋</h2>
 
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    value={form.password}
-                    onChange={handleChange}
-                    className="w-full mb-6 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
-                />
+                    <input
+                        type="text"
+                        name="username"
+                        placeholder="Username"
+                        value={form.username}
+                        onChange={handleChange}
+                        required
+                        className="auth-input"
+                    />
 
-                <button
-                    type="submit"
-                    className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
-                >
-                    Login
-                </button>
-            </form>
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Email"
+                        value={form.email}
+                        onChange={handleChange}
+                        required
+                        className="auth-input"
+                    />
+
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        value={form.password}
+                        onChange={handleChange}
+                        required
+                        className="auth-input"
+                    />
+
+                    <button type="submit" className="auth-btn">
+                        Login
+                    </button>
+
+                    <div className="auth-links">
+                        <a href="#">Forgot Password?</a>
+                        <a href="/register">Sign Up</a>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 };

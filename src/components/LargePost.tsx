@@ -3,42 +3,60 @@ import { addCommentApi, getAllCommentsApi } from '../services/comments';
 import Comment from './Comment';
 import "./LargePost.scss"
 import { useAuth } from '../context/userContext';
+import Follow from './Follow';
+import { FaRegBookmark, FaBookmark } from "react-icons/fa6";
+import { RxCross1 } from "react-icons/rx";
+import type { PostType } from '../pages/Feed';
 
 
-function LargePost({ post }: any) {
-    const [commentInput, setCommentInput] = useState("");
-    const [comments, setComments] = useState([]);
+export interface CommentType {
+    comment_id: number;
+    user_id: number;
+    username: string;
+    avatar_url: string;
+    comment: string;
+    created_at: string;
+}
+
+interface LargePostProps {
+    post: PostType | null;
+    handleEnlargedPostCancel: () => void;
+}
+
+function LargePost({ post, handleEnlargedPostCancel }: LargePostProps) {
+
+    if (!post) return null; // don't render anything if post is null
+    const [commentInput, setCommentInput] = useState<string>("");
+    const [comments, setComments] = useState<CommentType[]>([]);
     const { token } = useAuth()
-    console.log("pot", post)
+    const [errorMsg, setErrorMsg] = useState<string>("");
+
 
     useEffect(() => {
-
-        const getAllComments = async () => {
-
+        const fetchComments = async () => {
             try {
-                const comments = await getAllCommentsApi(post.post_id, token);
+                const res = await getAllCommentsApi(post.post_id, token);
                 console.log("response", comments)
-                setComments(comments.comments ?? [])
+                if (res.success && res.data) {
+                    console.log("API call", res.data)
+                    setComments(res.data ?? [])
+                } else {
+                    console.error("API Error:", res.error);
+                    setErrorMsg(res.error?.message || "Failed to fetch posts");
+                }
+
             } catch (error) {
-                console.log("error while fetching all comments", error)
+                console.log(error)
+                setErrorMsg("Something went wrong. Please try again later.");
             }
         }
 
-        getAllComments();
-        // console.log("Love it a vieveve", res)
-        // setComments(res)
+        fetchComments();
     }, [commentInput])
 
     const handleAddComment = async () => {
         if (commentInput.trim() === "") return;
 
-        // const newComment = {
-        //   id: Date.now(),
-        //   text: commentInput,
-        //   username: "current_user", // You can dynamically replace this
-        // };
-
-        // setAllComments([newComment, ...allComments]);
         try {
             const res = await addCommentApi({ post_id: post.post_id, comment: commentInput }, token);
             console.log("comment added frontend", res);
@@ -50,6 +68,7 @@ function LargePost({ post }: any) {
 
     return (
         <div className='large-post'>
+            <div className='large-post-cross' onClick={handleEnlargedPostCancel}><RxCross1 /> </div>
             <div className='large-post-left'>
                 <img className='large-post-posted-image' src={post.image_url} alt="" />
             </div>
@@ -60,11 +79,11 @@ function LargePost({ post }: any) {
                     <div className='post-meta-info'>
                         <div className='post-meta-info-left'>
                             <p>{post.username}</p>
-                            <p>3 hours ago</p>
+                            <p>{post.created_at}</p>
                         </div>
                         <div className='post-meta-info-right'>
-                            <div>Follow</div>
-                            <div>Save</div>
+                            <div>{(post.do_I_follow == -1) ? "   " : <Follow doIFollow={post.do_I_follow} user_id={post.user_id} profile={false} />}</div>
+                            <FaRegBookmark />
                         </div>
                         <div>
                             <p>:</p>
@@ -72,8 +91,14 @@ function LargePost({ post }: any) {
                     </div>
                 </div>
 
+                <div className='separator'></div>
+
+                <div className='post-content'>
+                    <p>{post.content}</p>
+                </div>
+
                 <div className='all-comments'>
-                    <p>FetchComments</p>
+                    {/* <p>FetchComments</p> */}
                     {
                         comments.length > 0 &&
                         (
@@ -85,14 +110,18 @@ function LargePost({ post }: any) {
                     }
                 </div>
 
+                <div className='separator'></div>
+
                 <div className='post-comment'>
+
                     <input
                         type="text"
+                        className='post-comment-input'
                         value={commentInput}
                         onChange={(e) => setCommentInput(e.target.value)}
                         placeholder="Write a comment..."
                     />
-                    <button onClick={handleAddComment}>Post</button>
+                    <button className='post-comment-btn' onClick={handleAddComment}>Post</button>
                 </div>
             </div>
         </div>

@@ -1,14 +1,16 @@
-import { useAuth } from "../context/userContext";
+// import { useAuth } from "../context/userContext";
 import { Outlet } from "react-router-dom";
+import Leftbar from "../components/Leftbar";
+import "./MainLayout.css"
 
 const MainLayout = () => {
-    const { token } = useAuth();
+    // const { token } = useAuth();
 
     return (
-        <div className="flex">
-            {token && <div>Leftbar</div>}
-            <div className="flex-grow p-4">
-                <Outlet />
+        <div className="layout">
+            <Leftbar />
+            <div className="main-content">
+                <Outlet /> {/* Feed, Profile, etc. will render here */}
             </div>
         </div>
     );

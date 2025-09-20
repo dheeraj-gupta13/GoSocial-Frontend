@@ -1,39 +1,98 @@
-import React, { use, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import "./Feed.css"
 import Post from '../components/Post'
 import { getAllPosts } from '../services/post'
 import LargePost from '../components/LargePost'
 import CreatePost from '../components/CreatePost'
-import useAuthToken from '../hooks/useAuthToken'
 import { useAuth } from '../context/userContext'
+import Leftbar from '../components/Leftbar'
 
+export interface Reaction {
+    what_reacted: number;
+    who_reacted: string;
+}
+
+export interface PostType {
+    post_id: number;
+    user_id: number;
+    username: string;
+    avatar_url: string;
+    content: string;
+    created_at: string;
+    do_I_follow: number;
+    image_url: string;
+    reaction_array: Reaction[] | null;
+}
+
+export interface GetPostsResponse {
+    posts: PostType[];
+    user_id: number;
+    username: string;
+}
+
+export interface PostsData {
+    posts: PostType[];
+    user_id: number;
+    username: string;
+}
+
+// Generic API Response
+export interface ApiError {
+    code: string;
+    message: string;
+    status_code: number;
+}
+
+export interface ApiResponse<T> {
+    success: boolean;
+    message?: string;
+    data?: T;
+    error?: ApiError | null;
+}
 
 function Feed() {
 
-    const [postsData, setPostsData] = useState([])
-    const [isPostEnlarged, setIsPostEnlarged] = useState(true);
-    const [enlargedPostId, setEnlargedPostId] = useState(-1);
-    const [enlargedPost, setEnlargedPost] = useState(null);
     const { token } = useAuth();
+    const [postsData, setPostsData] = useState<PostType[]>([])
+    const [isPostEnlarged, setIsPostEnlarged] = useState<boolean>(true);
+    const [enlargedPostId, setEnlargedPostId] = useState<number>(-1);
+    const [enlargedPost, setEnlargedPost] = useState<PostType | null>(null);
+    const [mode, setMode] = useState<boolean>(true);
+    const [errorMsg, setErrorMsg] = useState<string>("");
 
-    console.log("userTOken  FEED", token)
 
     useEffect(() => {
         const getAllPostsFn = async () => {
 
             if (!token) return;
             try {
-                const res = await getAllPosts(token);
-                console.log("API call", res.posts)
-                setPostsData(res.posts)
+                const res: ApiResponse<PostsData> = await getAllPosts(token);
+                console.log("Hiiiiiiiiiii")
+                if (res.success && res.data) {
+                    console.log("API call", res.data.posts)
+                    setPostsData(res.data.posts)
+                } else {
+                    console.error("API Error:", res.error);
+                    setErrorMsg(res.error?.message || "Failed to fetch posts");
+                }
             }
             catch (error) {
                 console.log(error)
+                setErrorMsg("Something went wrong. Please try again later.");
             }
         }
 
         getAllPostsFn()
     }, [token])
+
+
+    useEffect(() => {
+        const shouldLockScroll = !isPostEnlarged || !mode;
+        document.body.style.overflow = shouldLockScroll ? 'hidden' : 'auto';
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, [isPostEnlarged, mode]);
 
     const handleEnlargedPost = (post_id: number) => {
         setIsPostEnlarged(false);
@@ -45,35 +104,61 @@ function Feed() {
         }
     }
 
+    const handleEnlargedPostCancel = () => {
+        setIsPostEnlarged(true);
+        setEnlargedPostId(-1);
+        setEnlargedPost(null);
+    }
+
 
     return (
-        <div className='feed-container'>
+        <>
+            {
+                (!mode) &&
 
-            <div className='leftbar'>Leftbar</div>
-            <div className='rightbar'>
+                <div className='floating-create-post'>
+                    <CreatePost mode={mode} setMode={setMode} />
+                </div>
+            }
 
 
-                {
-                    (isPostEnlarged) ?
+            {
+                (!isPostEnlarged)
+                &&
+                <div className='floating-large-post'>
+                    {postsData.length > 0 && <LargePost post={enlargedPost} handleEnlargedPostCancel={handleEnlargedPostCancel} />}
+                </div>
+            }
+
+            <div className={`feed-container ${(mode && isPostEnlarged) ? '' : 'blurred'} `}>
+
+                {/* <div className='leftbar'>
+                    <ul>
+                        <li>Feed</li>
+                    </ul>
+                </div> */}
+                {/* <Leftbar /> */}
+                <div className='rightbar'>
+                    {
+
                         <div>
-                            <CreatePost />
+                            {
+                                (mode) &&
+                                <CreatePost mode={mode} setMode={setMode} />
+                            }
+
                             <div className="post-wrapper">
                                 {
                                     postsData.map((post) => (
-                                        <Post post={post} handleEnlargedPost={handleEnlargedPost} />
+                                        <Post key={post.post_id} post={post} handleEnlargedPost={handleEnlargedPost} />
                                     ))
                                 }
                             </div>
                         </div>
-
-                        :
-                        <div>
-                            {postsData.length > 0 && <LargePost post={enlargedPost} />}
-                        </div>
-                }
-
+                    }
+                </div>
             </div>
-        </div>
+        </>
     )
 }
 

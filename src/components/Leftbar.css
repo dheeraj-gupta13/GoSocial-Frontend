@@ -1,0 +1,85 @@
+.leftbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 300px;
+    background-color: #FFFFFF;
+    /* white background */
+    border-right: 1px solid #D3D3D3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* push logout to bottom */
+    padding: 20px 15px;
+}
+
+/* Logo */
+.logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: #14B8A6;
+    /* button color */
+    margin-bottom: 30px;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.logo span {
+    color: #0D9488;
+    /* buttonHover */
+}
+
+/* Menu */
+.menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1;
+}
+
+.menu li {
+    font-size: 16px;
+    font-weight: 500;
+    color: #000000;
+    padding: 12px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+    margin-bottom: 8px;
+}
+
+.menu li:hover {
+    /* background-color: #99F6E4; */
+    /* buttonLight */
+    color: #0D9488;
+}
+
+/* Active tab should be lighter, not the same as logout */
+.menu li.active {
+    background-color: #E6FFFA;
+    /* very light teal background */
+    color: #14B8A6;
+    /* button color text */
+    font-weight: 600;
+    border-left: 4px solid #14B8A6;
+    /* subtle left highlight */
+}
+
+.logout-btn {
+    background-color: #14B8A6;
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: auto;
+}
+
+.logout-btn:hover {
+    background-color: #0D9488;
+    /* buttonHover */
+}

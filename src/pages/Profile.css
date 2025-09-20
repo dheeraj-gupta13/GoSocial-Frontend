@@ -2,32 +2,31 @@
     display: flex;
     width: 100%;
     padding: 10px;
+    background-color: var(--color-background);
 }
 
 .profile-rightbar {
-    /* position: relative; */
-    width: 75%;
+    /* width: 75%; */
+    /* margin-left: 350px; */
 }
 
 .profile-leftbar {
-    width: 25%;
+    /* width: 25%; */
 }
 
 .display-picture {
-    background-color: azure;
-    height: 140px;
-
+    background-color: var(--color-azure);
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
 }
 
 .profile-top {
-    /* background-color: white; */
-    /* background-color: rgb(59, 59, 180); */
     display: flex;
     gap: 60px;
     position: relative;
-    /* top: 0px; */
+    margin-bottom: 30px;
 }
-
 
 .profile-pic {
     width: 200px;
@@ -36,6 +35,10 @@
     position: absolute;
     top: -40px;
 
+    border: 3px solid white;
+    object-fit: cover;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    background: #f0f0f0;
 }
 
 .profile-info {
@@ -43,7 +46,6 @@
     flex: 2;
     align-items: flex-end;
     gap: 20px;
-    /* position: absolute; */
     top: -20px;
 }
 
@@ -85,4 +87,102 @@
 
 .follow-value {
     font-size: 34px;
+}
+
+.edit-pharam {
+    background-color: var(--color-white);
+    display: flex;
+    width: 60%;
+    position: relative;
+}
+
+
+.edit-btn,
+.user-follow-btn {
+    padding: 8px 14px;
+    border: none;
+    background: var(--color-button);
+    color: var(--color-white);
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.edit-btn:hover {
+    background: var(--color-buttonHover);
+}
+
+.post-follow-btn {
+    color: var(--color-button);
+    font-weight: 600;
+}
+
+.user-following-btn {
+    padding: 8px 14px;
+    border: 2px solid var(--color-button);
+    color: var(--color-button);
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+
+/* ---- Verified Badge ---- */
+.verified-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    background-color: var(--color-button);
+    /* Instagram blue */
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 50%;
+    margin-left: 6px;
+}
+
+.verified-badge::before {
+    content: "✓";
+    /* checkmark */
+}
+
+
+/* Instagram-like verified badge */
+.ig-verified {
+    --size: 18px;
+    /* 12–18px works well */
+    --bg: #0095F6;
+    /* Instagram blue (or use your teal) */
+
+    position: relative;
+    display: inline-block;
+    width: var(--size);
+    height: var(--size);
+    /* margin-left: 6px; */
+    background: var(--bg);
+
+
+    /* burst/star outline (not a circle) */
+    clip-path: polygon(50% 0%, 61% 11%, 75% 6%, 78% 22%, 94% 25%, 89% 39%,
+            100% 50%, 89% 61%, 94% 75%, 78% 78%, 75% 94%, 61% 89%,
+            50% 100%, 39% 89%, 25% 94%, 22% 78%, 6% 75%, 11% 61%,
+            0% 50%, 11% 39%, 6% 25%, 22% 22%, 25% 6%, 39% 11%);
+}
+
+/* white checkmark */
+.ig-verified::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    width: calc(var(--size) * 0.45);
+    height: calc(var(--size) * 0.22);
+    transform: translate(-50%, -45%) rotate(-45deg);
+    border: calc(var(--size) * 0.1) solid #fff;
+    border-top: 0;
+    border-right: 0;
 }

@@ -3,12 +3,21 @@ import "./Post.scss"
 import Like from './Like'
 import { getAllCommentsApi } from '../services/comments'
 import { useAuth } from '../context/userContext'
+import { useNavigate } from 'react-router-dom'
+import { FaRegBookmark, FaBookmark } from "react-icons/fa6";
+import Follow from './Follow'
+import type { PostType } from '../pages/Feed';
 
 
-function Post({ post, handleEnlargedPost }: any) {
-    console.log("post ->", post)
-    console.log("username", post.avatar_url)
+interface PostProps {
+    post: PostType;
+    handleEnlargedPost: (post_id: number) => void;
+}
+
+function Post({ post, handleEnlargedPost }: PostProps) {
+
     const [commentCount, setCommentCount] = useState(0);
+    const navigate = useNavigate();
     const { token } = useAuth();
 
     useEffect(() => {
@@ -16,18 +25,20 @@ function Post({ post, handleEnlargedPost }: any) {
         const getAllComments = async () => {
 
             try {
-                const comments = await getAllCommentsApi(post.post_id, token);
-                console.log("response", comments)
-                setCommentCount(comments.comments.length ?? 0)
+                const res = await getAllCommentsApi(post.post_id, token);
+                console.log("response", res)
+                setCommentCount(res.data.length ?? 0)
             } catch (error) {
                 console.log("error while fetching all comments", error)
             }
         }
 
         getAllComments();
-        // console.log("Love it a vieveve", res)
-        // setComments(res)
     }, [])
+
+    const redirectToUser = (user: string) => {
+        navigate(`profile/${user}`)
+    }
 
     return (
         <div className='post-container'>
@@ -37,12 +48,15 @@ function Post({ post, handleEnlargedPost }: any) {
                     <img className='profile-picture' src={post.avatar_url} alt="" />
                     <div className='post-meta-info'>
                         <div className='post-meta-info-left'>
-                            <p>{post.username}</p>
-                            <p>3 hours ago</p>
+                            <p onClick={() => redirectToUser(post.username)}>{post.username}</p>
+                            <p>{post.created_at}</p>
                         </div>
                         <div className='post-meta-info-right'>
-                            <div>Follow</div>
-                            <div>Save</div>
+
+                            {/* <div>Follow</div> */}
+                            <div>{(post.do_I_follow == -1) ? "   " : <Follow doIFollow={post.do_I_follow} user_id={post.user_id} profile={false} />}</div>
+                            <FaRegBookmark />
+                            {/* <FaBookmark /> */}
                         </div>
                         <div>
                             <p>:</p>

@@ -1,0 +1,123 @@
+/* Theme variables */
+:root {
+    --white: #ffffff;
+    --black: #000000;
+    --grey: #808080;
+    --lightGrey: #d3d3d3;
+
+    --button: #14b8a6;
+    --buttonHover: #0d9488;
+    --buttonLight: #99f6e4;
+    --buttonText: #0d9488;
+}
+
+/* Page layout */
+.auth-page {
+    min-height: 100vh;
+    display: flex;
+    background: linear-gradient(to right, var(--buttonLight), var(--button));
+}
+
+.auth-left {
+    flex: 1;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.auth-left img {
+    max-width: 500px;
+    width: 100%;
+}
+
+.auth-right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+/* Form */
+.auth-form {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.auth-title {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: var(--buttonText);
+}
+
+/* Inputs */
+.auth-input {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--lightGrey);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    outline: none;
+    transition: border 0.2s, box-shadow 0.2s;
+}
+
+.auth-input:focus {
+    border-color: var(--button);
+    box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.3);
+}
+
+/* Button */
+.auth-btn {
+    width: 100%;
+    padding: 0.9rem;
+    background: var(--button);
+    color: var(--white);
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.1s;
+    box-shadow: 0 4px 12px rgba(20, 184, 166, 0.3);
+}
+
+.auth-btn:hover {
+    background: var(--buttonHover);
+}
+
+.auth-btn:active {
+    transform: scale(0.98);
+}
+
+/* Links */
+.auth-links {
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.auth-links a {
+    color: var(--buttonText);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.auth-links a:hover {
+    text-decoration: underline;
+    color: var(--buttonHover);
+}
+
+/* Responsive */
+@media (min-width: 1024px) {
+    .auth-left {
+        display: flex;
+    }
+}

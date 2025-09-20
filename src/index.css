@@ -4,6 +4,28 @@
   box-sizing: border-box;
 }
 
+
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@500;700&family=DM+Sans:wght@400;500&display=swap');
+
+:root {
+  --font-heading: 'Urbanist', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-body);
+  background-color: #f9fafa;
+  color: #111;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+}
+
 /* :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

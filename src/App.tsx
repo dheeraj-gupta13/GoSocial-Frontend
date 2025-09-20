@@ -1,18 +1,18 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import Register from './components/Register'
 import Login from './components/Login'
 import Post from './components/Post'
-import Feed from './pages/feed'
+import Feed from './pages/Feed'
 import CreatePost from './components/CreatePost'
 import Profile from "./pages/Profile";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import PublicRoute from "./pages/PublicRoute";
 import MainLayout from "./pages/MainLayout";
 
-function App() {
 
+function App() {
   return (
     <Router>
       <Routes>
@@ -37,8 +37,10 @@ function App() {
             <ProtectedRoute />
           }
         >
-          <Route path="/" element={<Feed />} />
-          <Route path="/profile/:userId" element={<Profile />} />
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<Feed />} />
+            <Route path="/profile/:username" element={<Profile />} />
+          </Route>
         </Route>
       </Routes>
     </Router>
